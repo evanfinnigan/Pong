@@ -32,7 +32,11 @@ class Puck(Picture):
     def __init__(self,x,y,radius,filename):
         super().__init__(x,y,radius*2,radius*2,filename)
         self.radius = radius
+        self.drop_puck()
+    def drop_puck(self):
         self.speed = 4
+        self.rect.x = 385
+        self.rect.y = 235
         self.angle = randint(0,360)
         self.speed_x = self.speed * math.cos(self.angle * 180 / math.pi)
         self.speed_y = self.speed * math.sin(self.angle * 180 / math.pi)
@@ -43,13 +47,20 @@ class Puck(Picture):
         # collide wall bottom
         if self.speed_y > 0 and self.rect.y > 430:
             self.speed_y = -1 * abs(self.speed_y)
-        # collide net left
-
-        # collide net right
-
         # collide wall left
-
+        if self.speed_x < 0 and self.rect.x < 40 and (self.rect.y < 200 or self.rect.y > 300):
+            self.speed_x = abs(self.speed_x)
         # collide wall right
+        if self.speed_x > 0 and self.rect.x > 700 and (self.rect.y < 200 or self.rect.y > 300):
+            self.speed_x = -1 * abs(self.speed_x)
+        # collide net left
+        if self.rect.x < 25:
+            print("GOAL PLAYER 2!")
+            self.drop_puck()
+        # collide net right
+        if self.rect.x > 705:
+            print("GOAL PLAYER 1!")
+            self.drop_puck()
 
         # collide paddles
 
@@ -73,6 +84,8 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+            if event.key == pygame.K_SPACE:
+                puck.speed_x += 2*(randint(0,1)-0.5)
 
     # Update Game Objects
     player_a.move()
