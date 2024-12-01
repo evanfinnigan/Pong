@@ -1,6 +1,8 @@
 # Pong game by Evan
 
 import pygame
+import math
+from random import randint
 
 screen = pygame.display.set_mode((800,500))
 clock = pygame.time.Clock()
@@ -30,9 +32,27 @@ class Puck(Picture):
     def __init__(self,x,y,radius,filename):
         super().__init__(x,y,radius*2,radius*2,filename)
         self.radius = radius
-        self.speed_x = 0
-        self.speed_y = 0
+        self.speed = 4
+        self.angle = randint(0,360)
+        self.speed_x = self.speed * math.cos(self.angle * 180 / math.pi)
+        self.speed_y = self.speed * math.sin(self.angle * 180 / math.pi)
     def move(self):
+        # collide wall top
+        if self.speed_y < 0 and self.rect.y < 10:
+            self.speed_y = abs(self.speed_y)
+        # collide wall bottom
+        if self.speed_y > 0 and self.rect.y > 430:
+            self.speed_y = -1 * abs(self.speed_y)
+        # collide net left
+
+        # collide net right
+
+        # collide wall left
+
+        # collide wall right
+
+        # collide paddles
+
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
 
@@ -41,6 +61,7 @@ background = Picture(0,0,800,500,"table.PNG")
 player_a = Paddle(100, 200, 40, "paddle.png", pygame.K_w, pygame.K_s)
 player_b = Paddle(650, 200, 40, "paddle.png", pygame.K_UP, pygame.K_DOWN)
 puck = Puck(385,235,30,"puck.png")
+
 
 running = True
 while running:
