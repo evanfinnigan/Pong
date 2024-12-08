@@ -54,11 +54,11 @@ class Puck(Picture):
         if self.speed_x > 0 and self.rect.x > 700 and (self.rect.y < 200 or self.rect.y > 300):
             self.speed_x = -1 * abs(self.speed_x)
         # collide net left
-        if self.rect.x < 25:
+        if self.rect.x < 5:
             print("GOAL PLAYER 2!")
             self.drop_puck()
         # collide net right
-        if self.rect.x > 705:
+        if self.rect.x > 715:
             print("GOAL PLAYER 1!")
             self.drop_puck()
 
@@ -69,6 +69,8 @@ class Puck(Picture):
 
 # Create Game Objects
 background = Picture(0,0,800,500,"table.PNG")
+foreground = Picture(0,0,800,500,"table_fg.png")
+
 player_a = Paddle(100, 200, 40, "paddle.png", pygame.K_w, pygame.K_s)
 player_b = Paddle(650, 200, 40, "paddle.png", pygame.K_UP, pygame.K_DOWN)
 puck = Puck(385,235,30,"puck.png")
@@ -97,6 +99,7 @@ while running:
     player_a.draw()
     player_b.draw()
     puck.draw()
+    foreground.draw()
 
     pygame.display.flip()
     clock.tick(fps)
